@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import styles from "./page.module.css";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper';
 import { Scrollbar, Navigation } from 'swiper/modules'
 import Woori from '../detail/woori';
 import Halasan from '../detail/hallasan';
@@ -14,7 +15,7 @@ import { useRef, useState, useEffect } from 'react';
 export default function Page() {
 
     const [detail_n, detail_n_f] = useState(0);
-  const swiperRef = useRef<any>(null);
+    const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isEnd, setIsEnd] = useState(false);
 
