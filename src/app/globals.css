@@ -8,6 +8,8 @@
   --foreground: #171717;
 }
 
+video {margin-top: 20px;}
+
 html,
 body {
   max-width: 100vw;

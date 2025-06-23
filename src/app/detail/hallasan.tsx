@@ -29,6 +29,14 @@ export default function Page() {
               <span className={styles.con_ul_marker}></span>
               모달 뒷 배경 어둡게 처리 및 스크롤 비활성화, 세션 스토리지를 확인해 모달 노출 여부를 제어하는 기능 구현,<br />
               관리자가 바로 로그인페이지로 접속하는경우 대비해 예외처리
+                                      <video
+  src="/video/hanlasan/1.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+>
+  브라우저가 video 태그를 지원하지 않습니다.
+</video>
               <pre><code>
                 {
                   `
@@ -93,6 +101,14 @@ $('#wr_2').on('focusout',()=>{
               좌우 화살표 클릭 시 텍스트 월을 기준으로 전월 또는 다음 월로 이동하며, 이미지와 텍스트도 함께 변경
               <br />
               Date Picker를 통해 비정상적인 연도를 입력한 경우, 화살표 클릭 시 자동으로 정상 범위의 월로 복원되도록 예외 처리
+                                                    <video
+  src="/video/hanlasan/2.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+>
+  브라우저가 video 태그를 지원하지 않습니다.
+</video>
               <pre><code>
                 {
                   `
@@ -208,7 +224,12 @@ function water_r_f(){
               고정출력 체크박스를 선택하면 출력 순서 입력란이 자동으로 활성화되고, 체크 해제 시 입력이 비활성화되도록 처리
               <br />
               입력란은 비어 있을 경우 자동으로 기본값을 입력하도록 focusout 이벤트를 활용해 예외 처리도 함께 적용
-
+                                                                  <video
+  src="/video/hanlasan/4.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>
                 {
                   `
@@ -253,6 +274,12 @@ function water_r_f(){
               <span className={styles.con_ul_marker}></span>
               메인 페이지에 고정 출력되는 5개의 게시판별 게시물이 속하는 행에 대해,<br />
               CSS Flex의 order 속성을 활용하여 관리자 설정에 따라 행의 순서를 조절할 수 있도록 구현
+                                                                  <video
+  src="/video/hanlasan/3.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
             </div>
           </li>
 
@@ -269,7 +296,12 @@ function water_r_f(){
               Swiper가 정상적으로 작동하려면 슬라이더 전체 높이가 100vh를 초과해야 하므로, 각 슬라이더의 최소 높이는 50vh로 설정하였습니다.
               <br />
               또한 SQL 쿼리를 통해 현재 페이지가 마지막 페이지인지 또는 마지막 직전 페이지인지 판별한 뒤, 슬라이더 작동을 보장하기 위해 빈 슬라이더 아이템을 추가합니다.
-
+                                                                <video
+  src="/video/hanlasan/5.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>
                 {
                   `
@@ -463,7 +495,12 @@ $second_row = sql_fetch($sql_second_row);
               또한 삭제 요청 시에는 임시 구분용으로 !TOKEN이라는 문자열을 백엔드에서 추가하고,
               <br />
               프론트엔드에서는 이를 감지한 후 실제 PHP에서 사용하는 토큰 정보로 치환하여 요청을 처리합니다.
-
+                                                                <video
+  src="/video/hanlasan/6.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>
                 {
                   `

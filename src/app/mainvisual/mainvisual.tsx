@@ -149,7 +149,6 @@ export default function Page() {
                         <Link href="#" onClick={() => { detail_n_f(4) }}>기존 사이트에 제가 작성한 코드<br/>일부만 적용한 사례입니다.</Link>
                         <ul>
                             <li>메인페이지 영상기능 추가</li>
-                            <li>진행상황기능 추가</li>
                             <li>달력,남은시간 기능 추가</li>
                         </ul>
                     </SwiperSlide>

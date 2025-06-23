@@ -33,149 +33,28 @@ Swiper의 .update() 메서드도 정상적으로 동작하지 않는 이슈가 �
             기본 그누보드 기반으로, 프론트엔드(UI 구현), 백엔드(PHP+SQL 처리), 프론트-백엔드 연동(API 처리) 전체를 1인 개발로 수행했습니다.
           </li>
           <span>주요 기능</span>
-          {/* 1 */}
-          <li>
-            베스트아이템 출력
-            <div>
-              <span className={styles.con_ul_marker}></span>
-              베스트아이템 출력하기전 대분류를 출력하여야했기에(대분류: 2글자 / 소분류: 4글자)
-              <pre><code>
-                {
-                  `
-                  <?
-\$result = sql_query(\"SELECT * FROM \`yc4_category\` WHERE ca_id LIKE '__'\");  
-\$con1_category = [];  
-
-for (\$i = 0; \$row = sql_fetch_array(\$result); \$i++) {  
-    \$con1_category[\$i] = \$row;  
-} 
-?>
-
-                      `}
-              </code></pre>
-                  분류 버튼 클릭 시, 선택된 카테고리에 해당하는 베스트 항목을 백엔드에서 조회한 뒤,<br/>
-                  Swiper 슬라이더를 초기화하고 해당 데이터를 프론트엔드에 동적으로 출력하는 기능을 구현하였습니다.<br/>
-                  또한 리뷰 수 출력, 다른 영역에서의 데이터 활용, 모바일 환경에서도 별도의 백엔드 페이지 없이 동일한 백엔드 로직을 재사용할 수 있도록 구현하였습니다
-                                <pre><code>
-                {
-                  `
-<ul class='con1_cate'>
-  <?foreach($con1_category as $pn=>$pnStr) {
-    $pnStr['ca_name'] == '수리/유지보수' && $pnStr['ca_name'] = '수리/<br>유지보수';
-    ?>
-    <li class="<?=$pn == 0 ? 'on' : ''?>" onclick='cate_f(<?=$pnStr['ca_id']?>)'>
-      <span></span>
-      <button onclick='cate_on_f(event)'><?=$pnStr['ca_name']?></button>
-    </li>
-  <?}?>
-</ul>
-
-<div class="swiper-container swiper-mainvisual_best" >
-  <div class="swiper-wrapper" >
-  </div>
-</div>
-
-<script>
-function cate_on_f(event,con1){
-	if(con1 == 'con1'){
-		$(event.target.parentElement).addClass('hov');
-		$(event.target.parentElement).siblings().removeClass('hov');	
-	}else{
-		$(event.target.parentElement).addClass('on');
-		$(event.target.parentElement).siblings().removeClass('on');		
-	};	
-};
-
-function cate_f (cate_id = '10'){
-	$.post("/res/include/con1_ajax.php",{ cate_id: cate_id }, (res)=>{
-		mainvisual_best.removeAllSlides();
-		const get_data = JSON.parse(res);
-
-		if(get_data['html']){
-			get_data['html'].forEach((item) => {
-				mainvisual_best.appendSlide(item);
-			});				
-		};
-	});
-};
-</script>
-
-
-// con1,con2 영역에 대한 백엔드 데이터 처리
-
-\$json_arr = [];
-\$cate_id = \$_POST['cate_id'];
-\$con2 = \$_POST['con2'];
-\$mobile = \$_POST['mobile'];
-\$buttons_html = '';
-\$img_size = 0;
-\$a_link = '';
-
-if(\$con2 == 'true'){
-\t\$result = sql_query(\"SELECT * FROM \`yc4_item\` where ca_id = '\{\$cate_id\}'\");
-\t\$bestlink = \"\";
-}else{
-\t\$result = sql_query(\"SELECT * FROM \`yc4_item\` where it_type4 = '1' and ca_id LIKE '\{\$cate_id\}__'\");
-\t\$bestlink = \"&best=1\";
-};
-
-if(empty(trim(\$mobile))){
-\t\$img_size = 290;
-\t\$a_link = '/shop/item.php';
-}else{
-\t\$img_size = 340;
-\t\$a_link = '/m/shop/item.php';
-};
-
-for (\$i=0; \$row = sql_fetch_array(\$result); \$i++){
-
-\t\$comment_qty = sql_fetch(\"SELECT COUNT(*) FROM \`g4_write_4_1_1_1\` where wr_7 = '\{\$row['it_name']\}'\");
-
-\tif(\$con2 != 'true'){
-\t\tfor (\$j = 1; \$j <= 5; \$j++) {
-\t\t\tif (\$row[\"it_type{\$j}\"] == 1) {
-\t\t\t\t\$j == 1 ? \$buttons_html .= \"<button class='icon_item_type icon_item_type{\$j}'>HIT</button>\\n\" : '';
-\t\t\t\t\$j == 2 ? \$buttons_html .= \"<button class='icon_item_type icon_item_type{\$j}'>추천</button>\\n\" : '';
-\t\t\t\t\$j == 3 ? \$buttons_html .= \"<button class='icon_item_type icon_item_type{\$j}'>NEW</button>\\n\" : '';
-\t\t\t\t\$j == 4 ? \$buttons_html .= \"<button class='icon_item_type icon_item_type{\$j}'>BEST</button>\\n\" : '';
-\t\t\t\t\$j == 5 ? \$buttons_html .= \"<button class='icon_item_type icon_item_type{\$j}'>SALE</button>\\n\" : '';		
-\t\t\t};
-\t\t};
-\t};
-
-\t\$json_arr['html'][\$i] = \"\"
-\t. \"<div class='swiper-slide'>\\n\"
-\t. \"<a href='\{\$a_link\}?it_id=\{\$row['it_id']\}\{\$bestlink\}'>\\n\"
-\t. \"<div>\\n\"
-\t. \"<span></span>\\n\"
-\t. \"<div class='con1_type_wrap'>\\n\"
-\t. \$buttons_html
-\t. \"</div>\\n\"
-\t. get_it_image(\$row['it_id'].\"_s\", \$img_size, \$img_size, \"\", date(\"YmdHis\", strtotime(\$row[\"it_time\"])))
-\t. \"</div>\\n\"
-\t. \"<h1>\{\$row['it_name']\}</h1>\\n\"
-\t. \"<p><span>리뷰 : \{\$comment_qty['COUNT(*)']\}</span></p>\"
-\t. \"</a>\\n\" 
-\t. \"</div>\\n\"; 
-
-\t\$buttons_html = '';
-};
-
-echo json_encode(\$json_arr);
-                      `}
-              </code></pre>
-              </div>
-          </li>
-
-                    {/* 2*/}
+            {/* 2*/}
           <li>
             소분류아이템 출력
             <div>
               <span className={styles.con_ul_marker}></span>
               대분류 클릭 후 소분류 출력, 소분류 클릭 시, 백엔드 처리 후 Swiper에 연동하여 출력
+                <video
+  src="/video/baro/1.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>
                 {
                   `
+<?
+\$con1_category = [];  
+for (\$i = 0; \$row = sql_fetch_array(\$result); \$i++) {  
+    \$con1_category[\$i] = \$row;  
+} 
+?>
+
 <ul>
   <?foreach($con1_category as $pn=>$pnStr) {?>		
     <li class=<?=$pn == 0 ? 'on' : ''?>>
@@ -199,6 +78,17 @@ echo json_encode(\$json_arr);
 </div>
 
 <script>
+
+function cate_on_f(event,con1){
+	if(con1 == 'con1'){
+		$(event.target.parentElement).addClass('hov');
+		$(event.target.parentElement).siblings().removeClass('hov');	
+	}else{
+		$(event.target.parentElement).addClass('on');
+		$(event.target.parentElement).siblings().removeClass('on');		
+	};	
+};
+
 function con2_catebox_f(ca_id = '10'){
 	$.post("/res/include/con2_cate_ajax.php",{ cate_id: ca_id }, (res)=>{
 		const get_data = JSON.parse(res);
@@ -237,7 +127,7 @@ function con2_fe(get_data){
 
 </script>
 
-// con2 영역에 대한 백엔드 데이터 처리
+// con2 소분류 영역에 대한 백엔드 데이터 처리
 \$json_arr = [];
 \$cate_id = \$_POST['cate_id'];
 \$json_arr['html'] = [];
@@ -256,6 +146,56 @@ for (\$i = 0; \$row = sql_fetch_array(\$result); \$i++) {
         . \"</li>\\n\";
     };
 };
+
+//슬라이더 내용 벡엔드 처리
+
+\$json_arr = [];
+\$cate_id = \$_POST['cate_id'];
+\$con2 = \$_POST['con2'];
+\$mobile = \$_POST['mobile'];
+\$buttons_html = '';
+\$img_size = 0;
+\$a_link = '';
+
+if(\$con2 == 'true'){
+\t\$result = sql_query(\"SELECT * FROM \`yc4_item\` where ca_id = '\{\$cate_id\}'\");
+\t\$bestlink = \"\";
+}else{
+\t\$result = sql_query(\"SELECT * FROM \`yc4_item\` where it_type4 = '1' and ca_id LIKE '\{\$cate_id\}__'\");
+\t\$bestlink = \"&best=1\";
+};
+
+if(empty(trim(\$mobile))){
+\t\$img_size = 290;
+\t\$a_link = '/shop/item.php';
+}else{
+\t\$img_size = 340;
+\t\$a_link = '/m/shop/item.php';
+};
+
+for (\$i=0; \$row = sql_fetch_array(\$result); \$i++){
+
+\t\$comment_qty = sql_fetch(\"SELECT COUNT(*) FROM \`g4_write_4_1_1_1\` where wr_7 = '\{\$row['it_name']\}'\");
+
+
+\t\$json_arr['html'][\$i] = \"\"
+\t. \"<div class='swiper-slide'>\\n\"
+\t. \"<a href='\{\$a_link\}?it_id=\{\$row['it_id']\}\{\$bestlink\}'>\\n\"
+\t. \"<div>\\n\"
+\t. \"<span></span>\\n\"
+\t. \"<div class='con1_type_wrap'>\\n\"
+\t. \$buttons_html
+\t. \"</div>\\n\"
+\t. get_it_image(\$row['it_id'].\"_s\", \$img_size, \$img_size, \"\", date(\"YmdHis\", strtotime(\$row[\"it_time\"])))
+\t. \"</div>\\n\"
+\t. \"<h1>\{\$row['it_name']\}</h1>\\n\"
+\t. \"<p><span>리뷰 : \{\$comment_qty['COUNT(*)']\}</span></p>\"
+\t. \"</a>\\n\" 
+\t. \"</div>\\n\"; 
+
+};
+
+echo json_encode(\$json_arr);
                 `}
               </code></pre>
               </div>
@@ -269,6 +209,12 @@ for (\$i = 0; \$row = sql_fetch_array(\$result); \$i++) {
 게시글로 등록되도록 하려면 기존 코드를 분석한 뒤 적절한 위치에 삽입해야 했습니다.<br/>
 비회원일 경우에는 팝업을 띄워 간단한 정보를 입력받아 진행하며,<br/>
 사용자 정보, 비회원 정보, 상품 정보를 하나의 객체에 담아 백엔드로 전송하도록 구현했습니다.
+     <video
+  src="/video/baro/2.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>
                 {
                   `
@@ -470,6 +416,12 @@ sql_fetch("UPDATE g4_board SET bo_count_write = {$inqu_total['total']} WHERE bo_
 단일 상품 페이지에서는 하나의 상품과 해당 옵션만 처리하면 되었지만,<br/>
 장바구니에서는 여러 상품과 각각의 옵션을 함께 고려해야 했습니다.<br/>
 이에 따라, 게시판 출력 구조에 맞춰 장바구니용 코드를 별도로 작성하였습니다.
+    <video
+  src="/video/baro/3.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>
                 {
                   `
@@ -576,6 +528,12 @@ function shop_write_f(member, all){
               <span className={styles.con_ul_marker}></span>
               회원은 로그인 상태에서 바로 문의 내역을 조회할 수 있도록 처리하였으며,<br/>
               비회원의 경우에는 이름과 연락처를 입력한 후 조회가 가능하도록 구현하였습니다.
+                  <video
+  src="/video/baro/4.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>
                 {
                   `

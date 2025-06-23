@@ -14,9 +14,17 @@ export default function Page() {
             메인페이지 영상기능 추가 
             <div>
               <span className={styles.con_ul_marker}></span>
-              이미 유튜브 영상을 업로드하는 게시판이 존재하는 상태에서,<br/>
               메인 페이지에 해당 게시판에 등록된 유튜브 영상이 표시되도록 해달라는 요청이었습니다.<br/>
               영상 영역 옆에는 최신 영상 4개의 탭이 있으며, 각 탭을 클릭하면 iframe 태그를 통해 해당 영상이 재생되도록 구현했습니다.
+
+                          <video
+  src="/video/other/2.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+>
+  브라우저가 video 태그를 지원하지 않습니다.
+</video>
                             <pre><code>
                 {
                   `
@@ -70,6 +78,7 @@ export default function Page() {
           </li>
 
         {/*1*/}
+        {/*
           <li>
             진행상황기능 추가 
             <div>
@@ -167,12 +176,24 @@ echo json_encode(\$inqu_btn_num);
             </code></pre>
             </div>
           </li>
+          */}
                   {/*22*/}
           <li>
             달력,남은시간 기능 추가 
             <div>
               <span className={styles.con_ul_marker}></span>
             특정 게시판에 날짜를 입력하면, 해당 월의 달력을 출력하고 결혼식까지 남은 시간을 실시간으로 표시하는 기능입니다.<br/>
+
+            <video
+  src="/video/other/1.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+>
+  브라우저가 video 태그를 지원하지 않습니다.
+</video>
+
+
             <pre><code>
                 {
                   `

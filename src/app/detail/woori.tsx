@@ -39,7 +39,12 @@ export default function Page() {
               예를 들어 `경남 창원시 마산합포구` 대신 `경남 마산합포구`처럼 정확하지 않으면 뷰페이지에서 에러가 발생하기 때문에,<br />
               주소 입력을 직접 타이핑 방식이 아닌, 정의해둔 데이터 바탕으로 select 요소로 선택하도록 설계했습니다.<br />
               또한 각 단계에서 입력값이 사전 정의된 지역 데이터와 일치하는지 확인한 뒤, 최종적으로 Kakao Maps API로 검사하였습니다.
-
+ <video
+  src="/video/weschool/3.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>
                 {
                   `
@@ -101,6 +106,12 @@ const geo_f = ()=>{
               첫 대분류 클릭 시 지도는 전국을 기준으로 출력되며,<br />
               이후 탭값에 따라 어떤 데이터를 서버에 요청할지 분기되도록 처리했습니다.<br />
               서버는 PHP에서 조건에 따라 SQL을 실행해 JSON 형식으로 리스트 HTML을 반환합니다.
+               <video
+  src="/video/weschool/2.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre>
                 <code>
                   {`\`\`
@@ -381,7 +392,12 @@ if ($_GET['region'] == '전국') {
               모바일에서는 하나의 레이아웃 내에서 중분류 클릭 시 소분류를 동적으로 교체해야 했습니다.<br />
               또한 소분류 항목이 10개 이상일 경우 한 화면에 모두 담기 어려워지므로,<br />
               이를 해결하기 위해 Swiper 슬라이더를 활용한 수평 스크롤 방식으로 대응하였습니다.
-
+ <video
+  src="/video/weschool/1.mp4"
+  muted
+  controls
+  style={{ width: '1000px'}}
+></video>
               <pre><code>{`
 const set_arr = (data) => {
   swiper_mainvisual_cate.removeAllSlides();
