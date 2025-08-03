@@ -116,6 +116,7 @@ const geo_f = ()=>{
                 <code>
                   {`\`\`
 const header_get = (event, cate1) => {
+  $('.con1_ul').empty();
   cate1_str = cate1;
 
   if (get_click === 0) {
@@ -130,8 +131,8 @@ const header_get = (event, cate1) => {
 
     $.get("/res/include/con1_ajax.php", (res) => {
       const get_data = JSON.parse(res);
-      for (let i = 0; i < 9; i++) {
-        $('.con1_ul > li').eq(i).replaceWith(get_data['html_arr'][i]);
+      for (let i = 0; i < get_data['html_arr'].length; i++) {
+        $('.con1_ul').append(get_data['html_arr'][i]);
       }
     });
   }
@@ -154,8 +155,8 @@ const header_get = (event, cate1) => {
       cate3: cate3_str
     }, (res) => {
       const get_data = JSON.parse(res);
-      for (let i = 0; i < 9; i++) {
-        $('.con1_ul > li').eq(i).replaceWith(get_data['html_arr'][i]);
+      for (let i = 0; i < get_data['html_arr'].length; i++) {
+        $('.con1_ul').append(get_data['html_arr'][i]);
       }
     });
   }
@@ -169,15 +170,15 @@ const header_get = (event, cate1) => {
 // PHP (con1_ajax.php)
 
 if(\$_GET['cate1'] != '' && \$_GET['cate2'] == '전국'){
-	\$result = sql_query(\"SELECT * FROM \\\`g4_write_10_1_1_1\\\` where wr_1 = '\{\$_GET['cate1']\}' and wr_is_comment = 0 order by wr_19 DESC, wr_7 asc limit 9\");
+	\$result = sql_query(\"SELECT * FROM \\\`g4_write_10_1_1_1\\\` where wr_1 = '\{\$_GET['cate1']\}' and wr_is_comment = 0 order by wr_19 DESC, wr_7 asc limit 12\");
 }else if(\$_GET['cate2'] != '전국' && \$_GET['cate3'] == ''){
-	\$result = sql_query(\"SELECT * FROM \\\`g4_write_10_1_1_1\\\` where wr_1 = '\{\$_GET['cate1']\}' and wr_2 = '\{\$_GET['cate2']\}' and wr_is_comment = 0 order by wr_19 DESC,  wr_7 asc limit 9\");
+	\$result = sql_query(\"SELECT * FROM \\\`g4_write_10_1_1_1\\\` where wr_1 = '\{\$_GET['cate1']\}' and wr_2 = '\{\$_GET['cate2']\}' and wr_is_comment = 0 order by wr_19 DESC,  wr_7 asc limit 12\");
 }else if(\$_GET['cate3']){
-	\$result = sql_query(\"SELECT * FROM \\\`g4_write_10_1_1_1\\\` where wr_1 = '\{\$_GET['cate1']\}' and wr_2 = '\{\$_GET['cate2']\}' and wr_3 = '\{\$_GET['cate3']\}' and wr_is_comment = 0 order by wr_19 DESC, wr_7 asc limit 9\");
+	\$result = sql_query(\"SELECT * FROM \\\`g4_write_10_1_1_1\\\` where wr_1 = '\{\$_GET['cate1']\}' and wr_2 = '\{\$_GET['cate2']\}' and wr_3 = '\{\$_GET['cate3']\}' and wr_is_comment = 0 order by wr_19 DESC, wr_7 asc limit 12\");
 };
 
 if(\$_GET['cate1'] == '') 
-	\$result = sql_query(\"SELECT * FROM \\\`g4_write_10_1_1_1\\\` where wr_is_comment = 0 order by wr_19 DESC, wr_id desc limit 9\");
+	\$result = sql_query(\"SELECT * FROM \\\`g4_write_10_1_1_1\\\` where wr_is_comment = 0 order by wr_19 DESC, wr_id desc limit 12\");
 
 
 // 중분류 탭 페이지
@@ -205,8 +206,8 @@ const cate_get = (event, cate2) => {
 
   $.get("/res/include/con1_ajax.php", { cate1: cate1_str, cate2: cate2 }, (res) => {
     const get_data = JSON.parse(res);
-    for (let i = 0; i < 9; i++) {
-      $('.con1_ul > li').eq(i).replaceWith(get_data['html_arr'][i]);
+    for (let i = 0; i < get_data['html_arr'].length; i++) {
+      $('.con1_ul').append(get_data['html_arr'][i]);
     }
   });
 };
@@ -243,8 +244,8 @@ const korea_f = () => {
         cate3: cate3_str
       }, (res) => {
         const get_data = JSON.parse(res);
-        for (let i = 0; i < 9; i++) {
-          $('.con1_ul > li').eq(i).replaceWith(get_data['html_arr'][i]);
+        for (let i = 0; i < get_data['html_arr'].length; i++) {
+          $('.con1_ul').append(get_data['html_arr'][i]);
         }
       });
     });
